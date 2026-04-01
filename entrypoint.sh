@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-# Mode utilitaire : lister les devices
+# Utility mode: list available audio devices
 if [ "${1:-}" = "list-devices" ]; then
     echo "=== ALSA devices (aplay -l) ==="
     aplay -l 2>/dev/null || echo "(no ALSA devices found)"
@@ -11,7 +11,28 @@ if [ "${1:-}" = "list-devices" ]; then
     exit 0
 fi
 
-# Construction de la commande
+# Derive a stable client ID from SENDSPIN_NAME if not explicitly set
+if [ -z "${SENDSPIN_CLIENT_ID}" ]; then
+    SENDSPIN_CLIENT_ID=$(echo "${SENDSPIN_NAME}" | tr '[:upper:]' '[:lower:]' | tr -cs 'a-z0-9' '-' | sed 's/-$//')
+fi
+
+# Auto-detect audio device if not specified
+if [ -z "${SENDSPIN_AUDIO_DEVICE}" ]; then
+    DETECTED=$(sendspin --list-audio-devices 2>/dev/null \
+        | grep -E '^\s+\[[0-9]+\]' \
+        | grep -iv 'default\|sysdefault\|dmix\|null' \
+        | head -1 \
+        | grep -oE '\[[0-9]+\]' \
+        | tr -d '[]')
+    if [ -n "${DETECTED}" ]; then
+        SENDSPIN_AUDIO_DEVICE="${DETECTED}"
+        echo "  Auto-detected audio device: ${DETECTED}"
+    else
+        echo "  No device detected, using sendspin default"
+    fi
+fi
+
+# Build the command
 CMD=(sendspin daemon)
 CMD+=(--name "${SENDSPIN_NAME}")
 
@@ -31,6 +52,7 @@ CMD+=(--log-level "${SENDSPIN_LOG_LEVEL}")
 echo "───────────────────────────────────────"
 echo "  Sendspin Receiver"
 echo "  Name:   ${SENDSPIN_NAME}"
+echo "  ID:     ${SENDSPIN_CLIENT_ID}"
 echo "  Device: ${SENDSPIN_AUDIO_DEVICE:-auto}"
 echo "  Port:   ${SENDSPIN_PORT}"
 echo "───────────────────────────────────────"
