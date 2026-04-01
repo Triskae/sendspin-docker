@@ -1,4 +1,4 @@
-# sendspin-receiver
+# sendspin-docker
 
 Docker container that turns a USB speaker into a permanent [Sendspin](https://github.com/Sendspin-Protocol/sendspin) receiver.
 Runs `sendspin daemon`, talks directly to ALSA (no PulseAudio/PipeWire), and advertises itself via mDNS on your local network.
@@ -8,7 +8,7 @@ Runs `sendspin daemon`, talks directly to ALSA (no PulseAudio/PipeWire), and adv
 ## Quick start
 
 ```bash
-curl -O https://raw.githubusercontent.com/<user>/sendspin-receiver/main/compose.yaml
+curl -O https://raw.githubusercontent.com/Triskae/sendspin-docker/main/docker-compose.yml
 docker compose up -d
 ```
 
@@ -54,7 +54,7 @@ Run one container per speaker. Duplicate the service and give each a unique `SEN
 ```yaml
 services:
   sendspin-office:
-    image: ghcr.io/<user>/sendspin-docker:latest
+    image: ghcr.io/Triskae/sendspin-docker:latest
     network_mode: host
     devices:
       - /dev/snd:/dev/snd
