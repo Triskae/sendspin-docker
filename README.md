@@ -54,7 +54,7 @@ Run one container per speaker. Each needs a unique `SENDSPIN_AUDIO_DEVICE` and `
 ```yaml
 services:
   sendspin-office:
-    image: ghcr.io/<user>/sendspin-receiver:latest
+    image: ghcr.io/<user>/sendspin-docker:latest
     network_mode: host
     devices:
       - /dev/snd:/dev/snd
@@ -69,7 +69,7 @@ services:
       SENDSPIN_PORT: "8927"
 
   sendspin-living-room:
-    image: ghcr.io/<user>/sendspin-receiver:latest
+    image: ghcr.io/<user>/sendspin-docker:latest
     network_mode: host
     devices:
       - /dev/snd:/dev/snd

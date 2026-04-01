@@ -1,6 +1,6 @@
 services:
   sendspin:
-    image: ghcr.io/sendspin-protocol/sendspin-receiver:latest
+    image: ghcr.io/sendspin-protocol/sendspin-docker:latest
     container_name: sendspin-receiver
     network_mode: host
     devices:
