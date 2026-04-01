@@ -1,0 +1,22 @@
+services:
+  sendspin:
+    build: .
+    container_name: sendspin-receiver
+    network_mode: host
+    devices:
+      - /dev/snd:/dev/snd
+    group_add:
+      - "${AUDIO_GID:-29}"
+    volumes:
+      - sendspin-config:/home/sendspin/.config/sendspin
+    env_file:
+      - .env
+    restart: unless-stopped
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+volumes:
+  sendspin-config:
