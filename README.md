@@ -49,7 +49,7 @@ docker compose run --rm sendspin list-devices
 
 ## Multiple speakers
 
-Run one container per speaker. Each needs a unique `SENDSPIN_AUDIO_DEVICE` and `SENDSPIN_PORT`:
+Run one container per speaker. Duplicate the service and give each a unique `SENDSPIN_NAME`, `SENDSPIN_AUDIO_DEVICE`, and `SENDSPIN_PORT`:
 
 ```yaml
 services:
@@ -68,24 +68,8 @@ services:
       SENDSPIN_AUDIO_DEVICE: "0"
       SENDSPIN_PORT: "8927"
 
-  sendspin-living-room:
-    image: ghcr.io/<user>/sendspin-docker:latest
-    network_mode: host
-    devices:
-      - /dev/snd:/dev/snd
-    group_add:
-      - "${AUDIO_GID:-29}"
-    volumes:
-      - sendspin-living-room-config:/home/sendspin/.config/sendspin
-    restart: unless-stopped
-    environment:
-      SENDSPIN_NAME: "Living Room"
-      SENDSPIN_AUDIO_DEVICE: "1"
-      SENDSPIN_PORT: "8928"
-
 volumes:
   sendspin-office-config:
-  sendspin-living-room-config:
 ```
 
 ---
