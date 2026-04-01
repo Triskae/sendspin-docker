@@ -1,6 +1,6 @@
 services:
   sendspin:
-    build: .
+    image: ghcr.io/sendspin-protocol/sendspin-receiver:latest
     container_name: sendspin-receiver
     network_mode: host
     devices:
@@ -9,9 +9,20 @@ services:
       - "${AUDIO_GID:-29}"
     volumes:
       - sendspin-config:/home/sendspin/.config/sendspin
-    env_file:
-      - .env
     restart: unless-stopped
+    environment:
+      SENDSPIN_NAME:            "${SENDSPIN_NAME:-Sendspin Speaker}"
+      SENDSPIN_AUDIO_DEVICE:    "${SENDSPIN_AUDIO_DEVICE:-}"
+      SENDSPIN_PORT:            "${SENDSPIN_PORT:-8927}"
+      SENDSPIN_LOG_LEVEL:       "${SENDSPIN_LOG_LEVEL:-INFO}"
+      SENDSPIN_HARDWARE_VOLUME: "${SENDSPIN_HARDWARE_VOLUME:-true}"
+      SENDSPIN_SERVER_URL:      "${SENDSPIN_SERVER_URL:-}"
+      SENDSPIN_AUDIO_FORMAT:    "${SENDSPIN_AUDIO_FORMAT:-}"
+      SENDSPIN_STATIC_DELAY_MS: "${SENDSPIN_STATIC_DELAY_MS:-}"
+      SENDSPIN_CLIENT_ID:       "${SENDSPIN_CLIENT_ID:-}"
+      SENDSPIN_HOOK_START:      "${SENDSPIN_HOOK_START:-}"
+      SENDSPIN_HOOK_STOP:       "${SENDSPIN_HOOK_STOP:-}"
+      SENDSPIN_HOOK_SET_VOLUME: "${SENDSPIN_HOOK_SET_VOLUME:-}"
     logging:
       driver: "json-file"
       options:
