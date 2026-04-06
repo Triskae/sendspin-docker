@@ -38,6 +38,11 @@ CMD+=(--name "${SENDSPIN_NAME}")
 
 DAEMON_HELP="$(sendspin daemon -h 2>&1 || true)"
 
+supports_daemon_flag() {
+    local flag="$1"
+    echo "${DAEMON_HELP}" | grep -Eq -- "(^|[[:space:]])${flag}([[:space:],]|$)"
+}
+
 [ -n "${SENDSPIN_CLIENT_ID}" ]        && CMD+=(--id "${SENDSPIN_CLIENT_ID}")
 [ -n "${SENDSPIN_AUDIO_DEVICE}" ]     && CMD+=(--audio-device "${SENDSPIN_AUDIO_DEVICE}")
 [ -n "${SENDSPIN_SERVER_URL}" ]       && CMD+=(--url "${SENDSPIN_SERVER_URL}")
@@ -49,7 +54,7 @@ DAEMON_HELP="$(sendspin daemon -h 2>&1 || true)"
 [ -n "${SENDSPIN_PORT}" ]             && CMD+=(--port "${SENDSPIN_PORT}")
 
 if [ -n "${SENDSPIN_MANUFACTURER}" ]; then
-    if echo "${DAEMON_HELP}" | grep -q -- '--manufacturer'; then
+    if supports_daemon_flag "--manufacturer"; then
         CMD+=(--manufacturer "${SENDSPIN_MANUFACTURER}")
     else
         echo "  Warning: SENDSPIN_MANUFACTURER ignored (installed sendspin CLI does not support --manufacturer)"
@@ -57,7 +62,7 @@ if [ -n "${SENDSPIN_MANUFACTURER}" ]; then
 fi
 
 if [ -n "${SENDSPIN_PRODUCT_NAME}" ]; then
-    if echo "${DAEMON_HELP}" | grep -q -- '--product-name'; then
+    if supports_daemon_flag "--product-name"; then
         CMD+=(--product-name "${SENDSPIN_PRODUCT_NAME}")
     else
         echo "  Warning: SENDSPIN_PRODUCT_NAME ignored (installed sendspin CLI does not support --product-name)"
