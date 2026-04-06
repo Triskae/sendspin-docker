@@ -1,5 +1,7 @@
 FROM python:3.12-slim
 
+ARG SENDSPIN_DOCKER_VERSION=dev
+
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
         libportaudio2 \
@@ -24,6 +26,7 @@ ENV SENDSPIN_HARDWARE_VOLUME="true"
 ENV SENDSPIN_CLIENT_ID=""
 ENV SENDSPIN_MANUFACTURER=""
 ENV SENDSPIN_PRODUCT_NAME=""
+ENV SENDSPIN_DOCKER_VERSION="${SENDSPIN_DOCKER_VERSION}"
 
 COPY entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh

@@ -36,6 +36,8 @@ fi
 CMD=(sendspin daemon)
 CMD+=(--name "${SENDSPIN_NAME}")
 
+DAEMON_HELP="$(sendspin daemon -h 2>&1 || true)"
+
 [ -n "${SENDSPIN_CLIENT_ID}" ]        && CMD+=(--id "${SENDSPIN_CLIENT_ID}")
 [ -n "${SENDSPIN_AUDIO_DEVICE}" ]     && CMD+=(--audio-device "${SENDSPIN_AUDIO_DEVICE}")
 [ -n "${SENDSPIN_SERVER_URL}" ]       && CMD+=(--url "${SENDSPIN_SERVER_URL}")
@@ -44,15 +46,33 @@ CMD+=(--name "${SENDSPIN_NAME}")
 [ -n "${SENDSPIN_HOOK_START}" ]       && CMD+=(--hook-start "${SENDSPIN_HOOK_START}")
 [ -n "${SENDSPIN_HOOK_STOP}" ]        && CMD+=(--hook-stop "${SENDSPIN_HOOK_STOP}")
 [ -n "${SENDSPIN_HOOK_SET_VOLUME}" ]  && CMD+=(--hook-set-volume "${SENDSPIN_HOOK_SET_VOLUME}")
-[ -n "${SENDSPIN_MANUFACTURER}" ]     && CMD+=(--manufacturer "${SENDSPIN_MANUFACTURER}")
-[ -n "${SENDSPIN_PRODUCT_NAME}" ]     && CMD+=(--product-name "${SENDSPIN_PRODUCT_NAME}")
 [ -n "${SENDSPIN_PORT}" ]             && CMD+=(--port "${SENDSPIN_PORT}")
+
+if [ -n "${SENDSPIN_MANUFACTURER}" ]; then
+    if echo "${DAEMON_HELP}" | grep -q -- '--manufacturer'; then
+        CMD+=(--manufacturer "${SENDSPIN_MANUFACTURER}")
+    else
+        echo "  Warning: SENDSPIN_MANUFACTURER ignored (installed sendspin CLI does not support --manufacturer)"
+    fi
+fi
+
+if [ -n "${SENDSPIN_PRODUCT_NAME}" ]; then
+    if echo "${DAEMON_HELP}" | grep -q -- '--product-name'; then
+        CMD+=(--product-name "${SENDSPIN_PRODUCT_NAME}")
+    else
+        echo "  Warning: SENDSPIN_PRODUCT_NAME ignored (installed sendspin CLI does not support --product-name)"
+    fi
+fi
 
 CMD+=(--hardware-volume "${SENDSPIN_HARDWARE_VOLUME}")
 CMD+=(--log-level "${SENDSPIN_LOG_LEVEL}")
 
+SENDSPIN_CLI_VERSION="$(sendspin --version 2>/dev/null | head -n1 || echo unknown)"
+
 echo "───────────────────────────────────────"
 echo "  Sendspin Receiver"
+echo "  Container Version: ${SENDSPIN_DOCKER_VERSION}"
+echo "  Sendspin CLI:      ${SENDSPIN_CLI_VERSION}"
 echo "  Name:   ${SENDSPIN_NAME}"
 echo "  ID:     ${SENDSPIN_CLIENT_ID}"
 echo "  Device: ${SENDSPIN_AUDIO_DEVICE:-auto}"

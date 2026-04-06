@@ -26,6 +26,7 @@ services:
       SENDSPIN_HOOK_SET_VOLUME: "${SENDSPIN_HOOK_SET_VOLUME:-}"
       SENDSPIN_MANUFACTURER:    "${SENDSPIN_MANUFACTURER:-}"
       SENDSPIN_PRODUCT_NAME:    "${SENDSPIN_PRODUCT_NAME:-}"
+      SENDSPIN_DOCKER_VERSION:  "${SENDSPIN_DOCKER_VERSION:-local}"
     logging:
       driver: "json-file"
       options:
