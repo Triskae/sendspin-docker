@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.2.0](https://github.com/Triskae/sendspin-docker/compare/v1.1.0...v1.2.0) (2026-04-06)
+
+
+### Features
+
+* log sendspin and container versions at startup ([e3ae92c](https://github.com/Triskae/sendspin-docker/commit/e3ae92ca871ded21f3f12e8748221adc1c39eefc))
+
 ## [1.1.0](https://github.com/Triskae/sendspin-docker/compare/v1.0.0...v1.1.0) (2026-04-06)
 
 
