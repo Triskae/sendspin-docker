@@ -44,6 +44,8 @@ CMD+=(--name "${SENDSPIN_NAME}")
 [ -n "${SENDSPIN_HOOK_START}" ]       && CMD+=(--hook-start "${SENDSPIN_HOOK_START}")
 [ -n "${SENDSPIN_HOOK_STOP}" ]        && CMD+=(--hook-stop "${SENDSPIN_HOOK_STOP}")
 [ -n "${SENDSPIN_HOOK_SET_VOLUME}" ]  && CMD+=(--hook-set-volume "${SENDSPIN_HOOK_SET_VOLUME}")
+[ -n "${SENDSPIN_MANUFACTURER}" ]     && CMD+=(--manufacturer "${SENDSPIN_MANUFACTURER}")
+[ -n "${SENDSPIN_PRODUCT_NAME}" ]     && CMD+=(--product-name "${SENDSPIN_PRODUCT_NAME}")
 [ -n "${SENDSPIN_PORT}" ]             && CMD+=(--port "${SENDSPIN_PORT}")
 
 CMD+=(--hardware-volume "${SENDSPIN_HARDWARE_VOLUME}")
