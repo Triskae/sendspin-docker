@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.2.1](https://github.com/Triskae/sendspin-docker/compare/v1.2.0...v1.2.1) (2026-04-06)
+
+
+### Bug Fixes
+
+* robustly ignore unsupported manufacturer/product flags ([7925832](https://github.com/Triskae/sendspin-docker/commit/79258328fab0ce3780db5ec4e5e6325ca7d94b2e))
+
 ## [1.2.0](https://github.com/Triskae/sendspin-docker/compare/v1.1.0...v1.2.0) (2026-04-06)
 
 
